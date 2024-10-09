@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Posts</title>
+</head>
+<body>
+    <h1>All Blog Posts</h1>
+    <a href="{% url 'create_post' %}">Create New Post</a>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+                <p>by {{ post.author.username }} on {{ post.created_at }}</p>
+            </li>
+        {% empty %}
+            <li>No posts available</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
