@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Profile, Follow
 from .forms import UserRegisterForm
 from django.contrib import messages
+from .forms import ProfileForm 
 
 def register(request):
     if request.method == 'POST':
@@ -19,11 +20,9 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 @login_required
-def profile_view(request, username):
-    user = get_object_or_404(User, username=username)
-    profile = get_object_or_404(Profile, user=user)
-    following = Follow.objects.filter(follower=request.user, following=user).exists()
-    return render(request, 'users/profile.html', {'profile': profile, 'following': following})
+def profile_view(request):
+    # profile = get_object_or_404(Profile, user=request.user)
+    return render(request, 'users/profile.html', {'user': request.user})
 
 @login_required
 def follow_user(request, username):
@@ -38,3 +37,14 @@ def unfollow_user(request, username):
     Follow.objects.filter(follower=request.user, following=user_to_unfollow).delete()
     return redirect('profile', username=username)
 
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Перенаправляем на страницу профиля после успешного сохранения
+    else:
+        form = ProfileForm(instance=request.user.profile)
+
+    return render(request, 'users/edit_profile.html', {'form': form})

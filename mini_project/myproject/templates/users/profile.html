@@ -1,26 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ profile.user.username }}'s Profile</title>
-</head>
-<body>
-    <h1>{{ profile.user.username }}'s Profile</h1>
-    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" width="150" height="150">
-    <p>{{ profile.bio }}</p>
+{% extends 'main.html'%}
+{% block content%}
+    <h1>Профиль {{ user.username }}</h1>
+    <p>Биография: {{ user.profile.bio }}</p>
 
-    {% if following %}
-        <form method="post" action="{% url 'unfollow_user' profile.user.username %}">
-            {% csrf_token %}
-            <button type="submit">Unfollow</button>
-        </form>
+    {% if user.profile.profile_picture %}
+        <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" width="150">
     {% else %}
-        <form method="post" action="{% url 'follow_user' profile.user.username %}">
-            {% csrf_token %}
-            <button type="submit">Follow</button>
-        </form>
+        <p>Изображение профиля не загружено.</p>
     {% endif %}
-    
-    <a href="{% url 'edit_profile' profile.user.username %}">Edit Profile</a>
-</body>
-</html>
+
+    <a href="{% url 'edit_profile' %}">Редактировать профиль</a>
+   
+{% endblock%}

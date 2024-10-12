@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ post.title }}</title>
-</head>
-<body>
+{% extends 'main.html'%}
+{% block content%}
     <h1>{{ post.title }}</h1>
     <p>{{ post.content }}</p>
     <p>by {{ post.author.username }} on {{ post.created_at }}</p>
-    
+
     <hr>
     <h2>Comments</h2>
     <ul>
@@ -31,5 +26,4 @@
         {% csrf_token %}
         <button type="submit">Delete</button>
     </form>
-</body>
-</html>
+{% endblock%}

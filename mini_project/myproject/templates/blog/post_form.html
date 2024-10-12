@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</title>
-</head>
-<body>
+{% extends 'main.html'%}
+
+{% block content%}
     <h1>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</h1>
     <form method="post">
         {% csrf_token %}
@@ -12,5 +8,4 @@
         <button type="submit">{% if form.instance.pk %}Update{% else %}Create{% endif %}</button>
     </form>
     <a href="{% url 'post_list' %}">Back to post list</a>
-</body>
-</html>
+{% endblock%}
